@@ -1,0 +1,126 @@
+name: Sign AAB
+
+on:
+  workflow_dispatch:
+    inputs:
+      aab_url:
+        description: 'URL to download AAB file'
+        required: true
+        type: string
+      keystore_url:
+        description: 'URL to download keystore file'
+        required: true
+        type: string
+      aab_filename:
+        description: 'Original AAB filename'
+        required: true
+        type: string
+      keystore_filename:
+        description: 'Original keystore filename'
+        required: true
+        type: string
+      keystore_password:
+        description: 'Keystore password'
+        required: true
+        type: string
+      key_alias:
+        description: 'Key alias'
+        required: true
+        type: string
+      key_password:
+        description: 'Key password'
+        required: true
+        type: string
+
+jobs:
+  sign:
+    runs-on: ubuntu-latest
+
+    steps:
+      # SECURITY: Mask secrets FIRST, before any other commands run
+      - name: Mask secrets
+        run: |
+          echo "::add-mask::${{ inputs.keystore_password }}"
+          echo "::add-mask::${{ inputs.key_password }}"
+
+      - name: Download files from Vercel Blob
+        run: |
+          echo "Downloading AAB file..."
+          curl -sL "${{ inputs.aab_url }}" -o "${{ inputs.aab_filename }}"
+          echo "Downloaded: $(ls -la "${{ inputs.aab_filename }}")"
+
+          echo "Downloading keystore file..."
+          curl -sL "${{ inputs.keystore_url }}" -o "${{ inputs.keystore_filename }}"
+          echo "Downloaded: $(ls -la "${{ inputs.keystore_filename }}")"
+
+          echo ""
+          echo "=== Files in directory ==="
+          ls -la
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Prepare files for signing
+        run: |
+          # Rename files for consistent processing
+          mv "${{ inputs.aab_filename }}" unsigned.aab
+          mv "${{ inputs.keystore_filename }}" keystore.jks
+          echo "Files prepared for signing"
+
+      - name: Verify keystore
+        env:
+          KEYSTORE_PASSWORD: ${{ inputs.keystore_password }}
+        run: |
+          echo "Verifying keystore..."
+          if keytool -list -keystore keystore.jks -storepass:env KEYSTORE_PASSWORD; then
+            echo "Keystore verification: SUCCESS"
+          else
+            echo "ERROR: Keystore password verification failed!"
+            exit 1
+          fi
+
+      - name: Sign AAB
+        env:
+          KEYSTORE_PASSWORD: ${{ inputs.keystore_password }}
+          KEY_PASSWORD: ${{ inputs.key_password }}
+          KEY_ALIAS: ${{ inputs.key_alias }}
+        run: |
+          echo "Signing AAB..."
+          jarsigner \
+            -sigalg SHA256withRSA \
+            -digestalg SHA-256 \
+            -keystore keystore.jks \
+            -storepass:env KEYSTORE_PASSWORD \
+            -keypass:env KEY_PASSWORD \
+            -signedjar signed.aab \
+            unsigned.aab \
+            "$KEY_ALIAS"
+          echo "AAB signed successfully"
+
+      - name: Verify signature
+        run: |
+          echo "Verifying signature..."
+          if jarsigner -verify signed.aab > /dev/null 2>&1; then
+            echo "Signature verification: PASSED"
+          else
+            echo "Signature verification: FAILED"
+            exit 1
+          fi
+
+      - name: Upload signed AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: signed-aab
+          path: signed.aab
+          retention-days: 1
+          if-no-files-found: error
+
+      # Cleanup local files
+      - name: Cleanup
+        if: always()
+        run: |
+          rm -f *.jks *.keystore *.p12 *.pfx unsigned.aab keystore.jks 2>/dev/null || true
+          echo "Cleanup complete"
