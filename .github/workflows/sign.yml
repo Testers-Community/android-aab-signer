@@ -75,7 +75,7 @@ jobs:
           KEYSTORE_PASSWORD: ${{ inputs.keystore_password }}
         run: |
           echo "Verifying keystore..."
-          if keytool -list -keystore keystore.jks -storepass:env KEYSTORE_PASSWORD; then
+          if keytool -list -keystore keystore.jks -storepass:env KEYSTORE_PASSWORD > /dev/null 2>&1; then
             echo "Keystore verification: SUCCESS"
           else
             echo "ERROR: Keystore password verification failed!"
@@ -89,7 +89,7 @@ jobs:
           KEY_ALIAS: ${{ inputs.key_alias }}
         run: |
           echo "Signing AAB..."
-          jarsigner \
+          if jarsigner \
             -sigalg SHA256withRSA \
             -digestalg SHA-256 \
             -keystore keystore.jks \
@@ -97,8 +97,12 @@ jobs:
             -keypass:env KEY_PASSWORD \
             -signedjar signed.aab \
             unsigned.aab \
-            "$KEY_ALIAS"
-          echo "AAB signed successfully"
+            "$KEY_ALIAS" > /dev/null 2>&1; then
+            echo "AAB signed successfully"
+          else
+            echo "ERROR: Signing failed! Please check your keystore, password, and alias."
+            exit 1
+          fi
 
       - name: Verify signature
         run: |
