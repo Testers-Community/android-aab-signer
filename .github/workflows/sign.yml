@@ -65,9 +65,13 @@ jobs:
 
       - name: Prepare files for signing
         run: |
-          # Rename files for consistent processing
-          mv "${{ inputs.aab_filename }}" unsigned.aab
-          mv "${{ inputs.keystore_filename }}" keystore.jks
+          # Rename files for consistent processing (skip if already named correctly)
+          if [ "${{ inputs.aab_filename }}" != "unsigned.aab" ]; then
+            mv "${{ inputs.aab_filename }}" unsigned.aab
+          fi
+          if [ "${{ inputs.keystore_filename }}" != "keystore.jks" ]; then
+            mv "${{ inputs.keystore_filename }}" keystore.jks
+          fi
           echo "Files prepared for signing"
 
       - name: Verify keystore
