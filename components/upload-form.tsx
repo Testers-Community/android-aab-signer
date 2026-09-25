@@ -60,12 +60,6 @@ const AlertIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
   </svg>
 );
 
-const ArrowRightIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-  </svg>
-);
-
 export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
   const [aabFile, setAabFile] = useState<File | null>(null);
   const [keystoreFile, setKeystoreFile] = useState<File | null>(null);
@@ -197,7 +191,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
     <form onSubmit={handleSubmit} className="space-y-5">
       {/* AAB File Upload */}
       <div>
-        <label className="mb-2 block text-[13.5px] font-semibold" style={{ color: '#1a1615' }}>
+        <label className="field-label">
           Android App Bundle (AAB)
         </label>
         <div
@@ -225,24 +219,24 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
           />
           {aabFile ? (
             <div className="flex items-center justify-center gap-3">
-              <span style={{ color: '#059669' }}><CheckCircleIcon className="w-7 h-7" /></span>
+              <span style={{ color: 'var(--ok)' }}><CheckCircleIcon className="w-7 h-7" /></span>
               <div className="text-left">
-                <p className="max-w-[220px] truncate text-[14.5px] font-semibold" style={{ color: '#1a1615' }}>{aabFile.name}</p>
-                <p className="text-[13px]" style={{ color: '#5a6272' }}>{formatFileSize(aabFile.size)}</p>
+                <p className="max-w-[220px] truncate text-[14.5px] font-semibold" style={{ color: 'var(--ink)' }}>{aabFile.name}</p>
+                <p className="text-[13px]" style={{ color: 'var(--muted)' }}>{formatFileSize(aabFile.size)}</p>
               </div>
             </div>
           ) : (
             <div className="py-2">
-              <span className="mx-auto mb-3 block w-fit" style={{ color: '#94a3b8' }}>
+              <span className="mx-auto mb-3 block w-fit" style={{ color: 'var(--faint)' }}>
                 <PackageIcon className="w-9 h-9" />
               </span>
-              <p className="text-[14.5px] font-semibold" style={{ color: '#1a1615' }}>Drop your .aab file here</p>
-              <p className="mt-1 text-[13px]" style={{ color: '#94a3b8' }}>or click to browse (max {formatFileSize(MAX_AAB_SIZE)})</p>
+              <p className="text-[14.5px] font-semibold" style={{ color: 'var(--ink)' }}>Drop your .aab file here</p>
+              <p className="mt-1 text-[13px]" style={{ color: 'var(--faint)' }}>or click to browse (max {formatFileSize(MAX_AAB_SIZE)})</p>
             </div>
           )}
         </div>
         {errors.aab && (
-          <p className="mt-2 flex items-center gap-1.5 text-[13px]" style={{ color: '#dc2626' }}>
+          <p className="mt-2 flex items-center gap-1.5 text-[13px]" style={{ color: 'var(--err)' }}>
             <AlertIcon className="w-4 h-4 flex-shrink-0" />
             {errors.aab}
           </p>
@@ -251,7 +245,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
 
       {/* Keystore File Upload */}
       <div>
-        <label className="mb-2 block text-[13.5px] font-semibold" style={{ color: '#1a1615' }}>
+        <label className="field-label">
           Keystore file
         </label>
         <div
@@ -279,24 +273,24 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
           />
           {keystoreFile ? (
             <div className="flex items-center justify-center gap-3">
-              <span style={{ color: '#059669' }}><CheckCircleIcon className="w-7 h-7" /></span>
+              <span style={{ color: 'var(--ok)' }}><CheckCircleIcon className="w-7 h-7" /></span>
               <div className="text-left">
-                <p className="max-w-[220px] truncate text-[14.5px] font-semibold" style={{ color: '#1a1615' }}>{keystoreFile.name}</p>
-                <p className="text-[13px]" style={{ color: '#5a6272' }}>{formatFileSize(keystoreFile.size)}</p>
+                <p className="max-w-[220px] truncate text-[14.5px] font-semibold" style={{ color: 'var(--ink)' }}>{keystoreFile.name}</p>
+                <p className="text-[13px]" style={{ color: 'var(--muted)' }}>{formatFileSize(keystoreFile.size)}</p>
               </div>
             </div>
           ) : (
             <div className="py-2">
-              <span className="mx-auto mb-3 block w-fit" style={{ color: '#94a3b8' }}>
+              <span className="mx-auto mb-3 block w-fit" style={{ color: 'var(--faint)' }}>
                 <KeyIcon className="w-9 h-9" />
               </span>
-              <p className="text-[14.5px] font-semibold" style={{ color: '#1a1615' }}>Drop your keystore file here</p>
-              <p className="mt-1 text-[13px]" style={{ color: '#94a3b8' }}>.jks, .keystore, .p12, or .pfx (max {formatFileSize(MAX_KEYSTORE_SIZE)})</p>
+              <p className="text-[14.5px] font-semibold" style={{ color: 'var(--ink)' }}>Drop your keystore file here</p>
+              <p className="mt-1 text-[13px]" style={{ color: 'var(--faint)' }}>.jks, .keystore, .p12, or .pfx (max {formatFileSize(MAX_KEYSTORE_SIZE)})</p>
             </div>
           )}
         </div>
         {errors.keystore && (
-          <p className="mt-2 flex items-center gap-1.5 text-[13px]" style={{ color: '#dc2626' }}>
+          <p className="mt-2 flex items-center gap-1.5 text-[13px]" style={{ color: 'var(--err)' }}>
             <AlertIcon className="w-4 h-4 flex-shrink-0" />
             {errors.keystore}
           </p>
@@ -305,7 +299,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
 
       {/* Key Alias */}
       <div>
-        <label htmlFor="keyAlias" className="mb-2 block text-[13.5px] font-semibold" style={{ color: '#1a1615' }}>
+        <label htmlFor="keyAlias" className="field-label">
           Key alias
         </label>
         <input
@@ -318,7 +312,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
           placeholder="e.g., my-key-alias"
         />
         {errors.keyAlias && (
-          <p className="mt-2 flex items-center gap-1.5 text-[13px]" style={{ color: '#dc2626' }}>
+          <p className="mt-2 flex items-center gap-1.5 text-[13px]" style={{ color: 'var(--err)' }}>
             <AlertIcon className="w-4 h-4 flex-shrink-0" />
             {errors.keyAlias}
           </p>
@@ -327,7 +321,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
 
       {/* Keystore Password */}
       <div>
-        <label htmlFor="keystorePassword" className="mb-2 block text-[13.5px] font-semibold" style={{ color: '#1a1615' }}>
+        <label htmlFor="keystorePassword" className="field-label">
           Keystore password
         </label>
         <div className="relative">
@@ -344,7 +338,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
             type="button"
             onClick={() => setShowKeystorePassword(!showKeystorePassword)}
             className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer transition-colors hover:opacity-70"
-            style={{ color: '#94a3b8' }}
+            style={{ color: 'var(--faint)' }}
             tabIndex={-1}
             aria-label="Toggle password visibility"
           >
@@ -352,7 +346,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
           </button>
         </div>
         {errors.keystorePassword && (
-          <p className="mt-2 flex items-center gap-1.5 text-[13px]" style={{ color: '#dc2626' }}>
+          <p className="mt-2 flex items-center gap-1.5 text-[13px]" style={{ color: 'var(--err)' }}>
             <AlertIcon className="w-4 h-4 flex-shrink-0" />
             {errors.keystorePassword}
           </p>
@@ -361,7 +355,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
 
       {/* Key Password */}
       <div>
-        <label htmlFor="keyPassword" className="mb-2 block text-[13.5px] font-semibold" style={{ color: '#1a1615' }}>
+        <label htmlFor="keyPassword" className="field-label">
           Key password
         </label>
         <div className="relative">
@@ -378,7 +372,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
             type="button"
             onClick={() => setShowKeyPassword(!showKeyPassword)}
             className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer transition-colors hover:opacity-70"
-            style={{ color: '#94a3b8' }}
+            style={{ color: 'var(--faint)' }}
             tabIndex={-1}
             aria-label="Toggle password visibility"
           >
@@ -386,7 +380,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
           </button>
         </div>
         {errors.keyPassword && (
-          <p className="mt-2 flex items-center gap-1.5 text-[13px]" style={{ color: '#dc2626' }}>
+          <p className="mt-2 flex items-center gap-1.5 text-[13px]" style={{ color: 'var(--err)' }}>
             <AlertIcon className="w-4 h-4 flex-shrink-0" />
             {errors.keyPassword}
           </p>
@@ -397,7 +391,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
       <button
         type="submit"
         disabled={disabled}
-        className="btn-primary w-full px-6 py-3.5 text-[15px]"
+        className="btn btn-primary w-full"
       >
         {disabled ? (
           <>
@@ -408,10 +402,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
             Processing...
           </>
         ) : (
-          <>
-            Sign my AAB
-            <ArrowRightIcon className="w-[18px] h-[18px]" />
-          </>
+          <>Sign my AAB</>
         )}
       </button>
     </form>

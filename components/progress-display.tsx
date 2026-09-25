@@ -141,40 +141,40 @@ export function ProgressDisplay({ status, error, downloadUrl, onReset }: Progres
           <>
             <div
               className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full"
-              style={{ background: 'rgba(5,150,105,0.1)', color: '#059669' }}
+              style={{ background: 'var(--ok-wash)', color: 'var(--ok)' }}
             >
               <CheckIcon className="w-8 h-8" />
             </div>
-            <h3 className="mb-1 text-[20px] font-bold" style={{ color: '#1a1615', letterSpacing: '-0.3px' }}>Your AAB is ready</h3>
-            <p className="text-[14px]" style={{ color: '#5a6272' }}>Signed successfully and ready for Google Play</p>
+            <h3 className="mb-1 text-[20px] font-bold" style={{ color: 'var(--ink)', letterSpacing: '-0.3px' }}>Your AAB is ready</h3>
+            <p className="text-[14px]" style={{ color: 'var(--muted)' }}>Signed successfully and ready for Google Play</p>
           </>
         ) : status === 'failed' || downloadError ? (
           <>
             <div
               className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full"
-              style={{ background: 'rgba(220,38,38,0.08)', color: '#dc2626' }}
+              style={{ background: 'rgba(179,38,30,0.08)', color: 'var(--err)' }}
             >
               <XIcon className="w-8 h-8" />
             </div>
-            <h3 className="mb-1 text-[20px] font-bold" style={{ color: '#1a1615', letterSpacing: '-0.3px' }}>Signing failed</h3>
-            <p className="text-[14px]" style={{ color: '#5a6272' }}>Something went wrong during the process</p>
+            <h3 className="mb-1 text-[20px] font-bold" style={{ color: 'var(--ink)', letterSpacing: '-0.3px' }}>Signing failed</h3>
+            <p className="text-[14px]" style={{ color: 'var(--muted)' }}>Something went wrong during the process</p>
           </>
         ) : (
           <>
             <div
               className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full"
-              style={{ background: 'rgba(5,74,218,0.07)', color: '#054ada' }}
+              style={{ background: 'var(--live-wash)', color: 'var(--live)' }}
             >
               <div className="relative">
                 <ShieldCheckIcon className="w-8 h-8" />
                 <div
                   className="absolute -inset-1.5 animate-spin rounded-full border-2 border-t-transparent"
-                  style={{ borderColor: '#054ada', borderTopColor: 'transparent' }}
+                  style={{ borderColor: 'var(--live)', borderTopColor: 'transparent' }}
                 />
               </div>
             </div>
-            <h3 className="mb-1 text-[20px] font-bold" style={{ color: '#1a1615', letterSpacing: '-0.3px' }}>Signing your app bundle</h3>
-            <p className="text-[14px]" style={{ color: '#5a6272' }}>This usually takes 2 to 3 minutes</p>
+            <h3 className="mb-1 text-[20px] font-bold" style={{ color: 'var(--ink)', letterSpacing: '-0.3px' }}>Signing your app bundle</h3>
+            <p className="text-[14px]" style={{ color: 'var(--muted)' }}>This usually takes 2 to 3 minutes</p>
           </>
         )}
       </div>
@@ -193,9 +193,9 @@ export function ProgressDisplay({ status, error, downloadUrl, onReset }: Progres
                   stepStatus === 'current'
                     ? 'rgba(5,74,218,0.06)'
                     : stepStatus === 'completed'
-                    ? 'rgba(5,150,105,0.06)'
+                    ? 'var(--ok-wash)'
                     : stepStatus === 'failed'
-                    ? 'rgba(220,38,38,0.06)'
+                    ? 'rgba(179,38,30,0.06)'
                     : 'transparent',
               }}
             >
@@ -204,12 +204,12 @@ export function ProgressDisplay({ status, error, downloadUrl, onReset }: Progres
                 className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300"
                 style={
                   stepStatus === 'completed'
-                    ? { background: '#059669', color: '#ffffff' }
+                    ? { background: 'var(--ok)', color: '#ffffff' }
                     : stepStatus === 'current'
-                    ? { background: 'rgba(5,74,218,0.12)', color: '#054ada' }
+                    ? { background: 'rgba(5,74,218,0.16)', color: 'var(--live)' }
                     : stepStatus === 'failed'
-                    ? { background: '#dc2626', color: '#ffffff' }
-                    : { background: '#f1f5f9', color: '#94a3b8' }
+                    ? { background: 'var(--err)', color: '#ffffff' }
+                    : { background: 'var(--sunken)', color: 'var(--faint)' }
                 }
               >
                 {stepStatus === 'completed' ? (
@@ -232,12 +232,12 @@ export function ProgressDisplay({ status, error, downloadUrl, onReset }: Progres
                 style={{
                   color:
                     stepStatus === 'completed'
-                      ? '#059669'
+                      ? 'var(--ok)'
                       : stepStatus === 'current'
-                      ? '#1a1615'
+                      ? 'var(--ink)'
                       : stepStatus === 'failed'
-                      ? '#dc2626'
-                      : '#94a3b8',
+                      ? 'var(--err)'
+                      : 'var(--faint)',
                 }}
               >
                 {stepStatus === 'current' ? step.activeLabel : step.label}
@@ -251,16 +251,16 @@ export function ProgressDisplay({ status, error, downloadUrl, onReset }: Progres
       {(status === 'failed' || downloadError) && (error || downloadError) && (
         <div
           className="rounded-xl p-4"
-          style={{ background: 'rgba(220,38,38,0.05)', border: '1px solid rgba(220,38,38,0.18)' }}
+          style={{ background: 'rgba(179,38,30,0.05)', border: '1px solid rgba(179,38,30,0.18)' }}
         >
-          <p className="mb-3 text-[13.5px] leading-[1.6]" style={{ color: '#b91c1c' }}>{downloadError || error}</p>
-          <div className="flex flex-wrap items-center gap-1.5 text-[12.5px]" style={{ color: '#5a6272' }}>
+          <p className="mb-3 text-[13.5px] leading-[1.6]" style={{ color: 'var(--err)' }}>{downloadError || error}</p>
+          <div className="flex flex-wrap items-center gap-1.5 text-[12.5px]" style={{ color: 'var(--muted)' }}>
             <MailIcon className="w-4 h-4 flex-shrink-0" />
             <span>Need help? Contact us at</span>
             <a
               href="mailto:support@testerscommunity.com"
               className="font-semibold underline underline-offset-2"
-              style={{ color: '#054ada' }}
+              style={{ color: 'var(--live)' }}
             >
               support@testerscommunity.com
             </a>
@@ -274,7 +274,7 @@ export function ProgressDisplay({ status, error, downloadUrl, onReset }: Progres
           <button
             onClick={handleDownload}
             disabled={isDownloading}
-            className="btn-primary w-full px-6 py-3.5 text-[15px]"
+            className="btn btn-primary w-full"
           >
             {isDownloading ? (
               <>
@@ -292,7 +292,7 @@ export function ProgressDisplay({ status, error, downloadUrl, onReset }: Progres
             )}
           </button>
 
-          <p className="text-center text-[12.5px]" style={{ color: '#94a3b8' }}>
+          <p className="text-center text-[12.5px]" style={{ color: 'var(--faint)' }}>
             Available for download for 24 hours
           </p>
         </div>
@@ -302,7 +302,7 @@ export function ProgressDisplay({ status, error, downloadUrl, onReset }: Progres
       {(status === 'completed' || status === 'failed') && onReset && (
         <button
           onClick={onReset}
-          className="btn-secondary w-full px-4 py-3 text-[14px]"
+          className="btn btn-secondary w-full"
         >
           <RefreshIcon className="w-4 h-4" />
           Sign another AAB
@@ -313,12 +313,12 @@ export function ProgressDisplay({ status, error, downloadUrl, onReset }: Progres
       {isInProgress && (
         <div
           className="flex items-center gap-3 rounded-xl p-3"
-          style={{ background: 'rgba(5,74,218,0.05)', border: '1px solid rgba(5,74,218,0.12)' }}
+          style={{ background: 'var(--live-wash)', border: '1px solid rgba(5,74,218,0.16)' }}
         >
-          <svg className="w-4 h-4 flex-shrink-0" style={{ color: '#054ada' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--live)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
           </svg>
-          <span className="text-[12.5px] leading-[1.55]" style={{ color: '#5a6272' }}>
+          <span className="text-[12.5px] leading-[1.55]" style={{ color: 'var(--muted)' }}>
             Your files are processed securely and deleted immediately after signing.
           </span>
         </div>
@@ -331,7 +331,7 @@ export function ProgressDisplay({ status, error, downloadUrl, onReset }: Progres
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 text-[13px] font-medium transition-opacity hover:opacity-70"
-          style={{ color: '#054ada' }}
+          style={{ color: 'var(--live)' }}
         >
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
             <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />

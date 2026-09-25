@@ -1,318 +1,273 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
- * AAB Signer - Testers Community design system
+ * AAB Signer
  *
- * Ported from the main site (testerscommunity.com) so this tool reads as part
- * of the same product family as the guides and the landing page:
- *   - one blue accent (#054ada), semantic green/red, and neutrals. No rainbow.
- *   - blue hero band, light gradient body, translucent white cards.
- *   - Plus Jakarta Sans for headings, Inter for body, mono only for code.
+ * The subject is custody of a signing key. A developer hands over the one
+ * artifact they cannot replace, it is used once, and it is destroyed. The page
+ * is built to feel like a precise instrument rather than a marketing site:
+ *   - the tool is the hero, usable without scrolling
+ *   - ink on warm paper, with the house sky-to-sand wash used exactly once
+ *   - one elevated surface (the form). Every other section is flat, separated
+ *     by hairline rules rather than repeated cards
+ *   - monospace carries real machine values only: file names, aliases,
+ *     package names. It is information, not texture
  * ------------------------------------------------------------------------ */
 
 :root {
-  /* Ink */
-  --ink: #1a1615;          /* headings */
-  --ink-soft: #453f3d;     /* lead paragraphs */
-  --body: #5a6272;         /* body copy */
-  --muted: #94a3b8;        /* meta, captions */
+  /* Ink on paper */
+  --ink: #1a1615;          /* headlines, primary text */
+  --ink-2: #453f3d;        /* prose */
+  --muted: #6b645f;        /* secondary, warm rather than cool grey */
+  --faint: #9a938d;        /* captions, placeholders */
 
-  /* Accent - the single brand colour, same blue as /guides */
-  --accent: #054ada;
-  --accent-ink: #043aad;
-  --accent-wash: rgba(5, 74, 218, 0.07);
-  --accent-line: rgba(5, 74, 218, 0.15);
+  --paper: #fbfaf8;        /* page */
+  --paper-2: #ffffff;      /* the one raised surface */
+  --sunken: #f2efea;       /* inset wells */
 
-  /* Surfaces */
-  --page: #ffffff;
-  --card: rgba(255, 255, 255, 0.88);
-  --line: rgba(26, 22, 21, 0.08);
-  --line-strong: rgba(26, 22, 21, 0.14);
-  --sunken: #f8fafc;
+  --rule: rgba(26, 22, 21, 0.11);
+  --rule-2: rgba(26, 22, 21, 0.18);
 
-  /* Semantic - used only for state, never for decoration */
-  --ok: #059669;
-  --ok-wash: rgba(5, 150, 105, 0.08);
-  --err: #dc2626;
-  --err-wash: rgba(220, 38, 38, 0.06);
+  /* The house hero wash, used once and only in the hero */
+  --sky: #9cc1e7;
+  --sand: #eddfd0;
+
+  /* Blue appears only where something is interactive */
+  --live: #054ada;
+  --live-deep: #043aad;
+  --live-wash: rgba(5, 74, 218, 0.06);
+
+  --ok: #0f7a52;
+  --ok-wash: rgba(15, 122, 82, 0.07);
+  --err: #b3261e;
 }
 
 @theme inline {
-  --color-background: var(--page);
+  --color-background: var(--paper);
   --color-foreground: var(--ink);
-  --color-accent: var(--accent);
   --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-heading: var(--font-jakarta), var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-jakarta), var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 @layer base {
   body {
-    background: var(--page);
-    color: var(--ink);
+    background: var(--paper);
+    color: var(--ink-2);
     font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color-scheme: light;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1, h2, h3, h4 {
     font-family: var(--font-jakarta), var(--font-inter), system-ui, sans-serif;
-    letter-spacing: -0.02em;
     color: var(--ink);
+    font-weight: 700;
+  }
+
+  /* Elements of Typographic Style: one scale, set deliberately. */
+  h1 {
+    font-size: clamp(2.25rem, 1.4rem + 3.4vw, 3.5rem);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+  }
+  h2 {
+    font-size: clamp(1.5rem, 1.15rem + 1.5vw, 2.125rem);
+    line-height: 1.12;
+    letter-spacing: -0.028em;
+  }
+  h3 {
+    font-size: 1.0625rem;
+    line-height: 1.35;
+    letter-spacing: -0.012em;
+  }
+
+  code, pre, .mono {
+    font-family: var(--font-geist-mono), ui-monospace, monospace;
+    font-feature-settings: "ss01", "zero";
   }
 }
 
-/* Scrollbar - thin, no rail, matching the main site */
+/* Scrollbar: present but quiet. */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(26, 22, 21, 0.3) transparent;
+  scrollbar-color: rgba(26, 22, 21, 0.24) transparent;
 }
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-  background: transparent;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
+::-webkit-scrollbar { width: 11px; height: 11px; background: transparent; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(26, 22, 21, 0.28);
-  border: 2px solid transparent;
+  background: rgba(26, 22, 21, 0.2);
+  border: 3px solid transparent;
   border-radius: 10px;
   background-clip: padding-box;
 }
+::-webkit-scrollbar-thumb:hover { background: rgba(26, 22, 21, 0.34); background-clip: padding-box; }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(26, 22, 21, 0.45);
-  background-clip: padding-box;
+::selection { background: rgba(5, 74, 218, 0.14); color: var(--ink); }
+
+/* --------------------------------------------------------------- Structure */
+
+/* The single wash on the page. Short, and it dissolves into paper so the
+   gradient never becomes a field you have to read white text on. */
+.hero-wash {
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--sky) 52%, var(--paper)) 0%,
+      color-mix(in srgb, var(--sand) 46%, var(--paper)) 46%,
+      var(--paper) 100%);
 }
 
-::selection {
-  background: rgba(5, 74, 218, 0.16);
-  color: var(--ink);
+/* Sections are separated by a rule, not by stacking more cards. */
+.rule-top { border-top: 1px solid var(--rule); }
+
+/* The one raised surface: the working form. */
+.surface {
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  box-shadow:
+    0 1px 2px rgba(26, 22, 21, 0.04),
+    0 12px 32px -12px rgba(26, 22, 21, 0.14);
 }
 
-/* ---------------------------------------------------------------- Surfaces */
-
-/* The card treatment used across /guides: translucent white over the tinted
-   page gradient, hairline border, soft lift. */
-.tc-card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-}
-
-.tc-card-hover {
-  transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
-}
-
-.tc-card-hover:hover {
-  border-color: var(--line-strong);
-  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.07);
-  transform: translateY(-2px);
-}
-
-/* Page body behind the blue hero: white to a faint blue, as on /guides. */
-.tc-canvas {
-  background: linear-gradient(180deg, #ffffff 0%, #f0f4ff 40%, #f8fafc 100%);
-}
-
-/* The dotted field the guides index lays over its canvas. */
-.tc-dots {
-  background-image: radial-gradient(circle, rgba(5, 74, 218, 0.05) 1px, transparent 1px);
-  background-size: 32px 32px;
+/* Inset well for secondary information. Flat, no shadow: it must not compete
+   with the one raised surface. */
+.well {
+  background: var(--sunken);
+  border-radius: 12px;
 }
 
 /* ----------------------------------------------------------------- Buttons */
 
-.btn-primary {
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: var(--accent);
-  color: #ffffff;
+  font-family: var(--font-inter), system-ui, sans-serif;
   font-weight: 600;
-  border: none;
-  border-radius: 12px;
+  font-size: 0.9375rem;
+  letter-spacing: -0.008em;
+  border-radius: 10px;
+  border: 1px solid transparent;
   cursor: pointer;
-  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
-.btn-primary:hover:not(:disabled) {
-  background: var(--accent-ink);
-  box-shadow: 0 6px 20px rgba(5, 74, 218, 0.22);
-  transform: translateY(-1px);
+/* Primary is ink, as on the landing page. Blue stays reserved. */
+.btn-primary {
+  background: var(--ink);
+  color: #ffffff;
+  padding: 13px 22px;
 }
-
-.btn-primary:active:not(:disabled) {
-  transform: translateY(0);
-}
-
+.btn-primary:hover:not(:disabled) { background: #000000; }
 .btn-primary:disabled {
-  background: #e2e8f0;
-  color: #94a3b8;
+  background: var(--sunken);
+  color: var(--faint);
   cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
 }
 
 .btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: #ffffff;
+  background: transparent;
   color: var(--ink);
-  font-weight: 600;
-  border: 1px solid var(--line-strong);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  border-color: var(--rule-2);
+  padding: 12px 20px;
 }
-
-.btn-secondary:hover {
-  background: var(--sunken);
-  border-color: rgba(26, 22, 21, 0.22);
-}
+.btn-secondary:hover { background: var(--sunken); }
 
 /* ------------------------------------------------------------------ Fields */
 
+.field-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.006em;
+  margin-bottom: 7px;
+}
+
 .tc-field {
   width: 100%;
-  padding: 12px 16px;
-  background: #ffffff;
-  border: 1px solid var(--line-strong);
-  border-radius: 12px;
+  padding: 11px 14px;
+  background: var(--paper-2);
+  border: 1px solid var(--rule-2);
+  border-radius: 10px;
   color: var(--ink);
-  font-size: 15px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.875rem;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
 }
-
-.tc-field::placeholder {
-  color: var(--muted);
-}
-
+.tc-field::placeholder { color: var(--faint); font-family: var(--font-inter), sans-serif; }
 .tc-field:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(5, 74, 218, 0.12);
+  border-color: var(--live);
+  box-shadow: 0 0 0 3px var(--live-wash);
 }
+.tc-field:disabled { background: var(--sunken); color: var(--faint); cursor: not-allowed; }
+.tc-field-error { border-color: var(--err); }
+.tc-field-error:focus { border-color: var(--err); box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.1); }
 
-.tc-field:disabled {
-  background: var(--sunken);
-  color: var(--muted);
-  cursor: not-allowed;
-}
-
-.tc-field-error {
-  border-color: var(--err);
-}
-
-.tc-field-error:focus {
-  border-color: var(--err);
-  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
-}
-
-/* Text fields carry their own border, so the global focus ring would read as a
-   second one. Everything else keeps the accessible outline. */
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 6px;
-}
-
-.tc-field:focus-visible {
-  outline: none;
-}
+:focus-visible { outline: 2px solid var(--live); outline-offset: 2px; border-radius: 4px; }
+.tc-field:focus-visible { outline: none; }
 
 /* -------------------------------------------------------------- Drop zones */
 
 .tc-drop {
-  border: 1.5px dashed var(--line-strong);
-  border-radius: 16px;
-  background: #ffffff;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  border: 1px dashed var(--rule-2);
+  border-radius: 12px;
+  background: var(--paper-2);
+  transition: border-color 0.16s ease, background 0.16s ease;
 }
-
-.tc-drop:hover {
-  border-color: var(--accent-line);
-  background: var(--accent-wash);
-}
-
-.tc-drop-active {
-  border-color: var(--accent);
-  background: var(--accent-wash);
-}
-
+.tc-drop:hover { border-color: var(--live); background: var(--live-wash); }
+.tc-drop-active { border-color: var(--live); background: var(--live-wash); border-style: solid; }
 .tc-drop-filled {
   border-style: solid;
-  border-color: rgba(5, 150, 105, 0.35);
+  border-color: rgba(15, 122, 82, 0.34);
   background: var(--ok-wash);
 }
 
 /* -------------------------------------------------------------------- Code */
 
-/* Dark ink block on a light page - the same treatment the guides give <pre>. */
 .tc-code {
-  background: #1a1615;
-  color: #f5f5f4;
-  border-radius: 14px;
+  background: var(--ink);
+  color: #f2efea;
+  border-radius: 12px;
   font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 13.5px;
-  line-height: 1.65;
+  font-size: 0.8125rem;
+  line-height: 1.75;
   overflow-x: auto;
 }
 
-/* ------------------------------------------------------------- Animations */
+/* ------------------------------------------------------------- Transitions */
 
-@keyframes tc-fade-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* One orchestrated moment only: the result panel arriving. Nothing else on
+   the page animates itself into view. */
+@keyframes settle {
+  from { opacity: 0; transform: translateY(6px) scale(0.995); }
+  to   { opacity: 1; transform: none; }
 }
+.animate-fade-in { animation: settle 0.28s cubic-bezier(0.2, 0.7, 0.3, 1) forwards; }
 
-.animate-fade-in {
-  animation: tc-fade-in 0.4s ease-out forwards;
-}
-
-@keyframes tc-sweep {
-  0%   { left: -40%; }
-  100% { left: 100%; }
-}
-
-.progress-indeterminate {
-  position: relative;
-  overflow: hidden;
-}
-
+@keyframes sweep { to { transform: translateX(340%); } }
+.progress-indeterminate { position: relative; overflow: hidden; }
 .progress-indeterminate::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: -40%;
-  width: 40%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(5, 74, 218, 0.45), transparent);
-  animation: tc-sweep 1.5s ease-in-out infinite;
+  inset: 0 auto 0 0;
+  width: 30%;
+  background: linear-gradient(90deg, transparent, var(--live-wash), transparent);
+  animation: sweep 1.4s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .animate-fade-in { animation: none; opacity: 1; transform: none; }
   .progress-indeterminate::after { animation: none; }
+  * { transition-duration: 0.01ms !important; }
 }
