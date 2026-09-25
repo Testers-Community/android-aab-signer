@@ -51,7 +51,7 @@ const TrashIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
 
 const UsersIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
   </svg>
 );
 
@@ -84,6 +84,14 @@ const GitHubIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
     <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
   </svg>
 );
+
+const MailIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+  </svg>
+);
+
+const REPO_URL = 'https://github.com/Testers-Community/android-aab-signer';
 
 // FAQ Data
 const faqData = [
@@ -118,16 +126,24 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-zinc-800 last:border-b-0">
+    <div className="border-b last:border-b-0" style={{ borderColor: 'rgba(26,22,21,0.08)' }}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between py-5 text-left hover:text-lime-400 transition-colors group"
+        className="w-full flex items-center justify-between gap-4 py-5 text-left group cursor-pointer"
+        aria-expanded={isOpen}
       >
-        <span className="font-medium text-white group-hover:text-lime-400 transition-colors pr-4">{question}</span>
-        <ChevronDownIcon className={`w-5 h-5 text-zinc-400 transition-transform duration-200 flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
+        <span
+          className="font-semibold text-[15px] transition-colors group-hover:text-[#054ada]"
+          style={{ color: '#1a1615' }}
+        >
+          {question}
+        </span>
+        <ChevronDownIcon
+          className={`w-5 h-5 flex-shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+        />
       </button>
       <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 pb-5' : 'max-h-0'}`}>
-        <p className="text-zinc-400 leading-relaxed">{answer}</p>
+        <p className="text-[14px] leading-[1.7] pr-8" style={{ color: '#5a6272' }}>{answer}</p>
       </div>
     </div>
   );
@@ -281,471 +297,557 @@ export default function Home() {
   const isProcessing = status !== 'idle' && status !== 'completed' && status !== 'failed';
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-white">
-      {/* Background Effects */}
-      <div className="fixed inset-0 radial-gradient pointer-events-none" />
-      <div className="fixed inset-0 grid-pattern opacity-30 pointer-events-none" />
-
+    <div className="min-h-screen" style={{ background: '#ffffff' }}>
       {/* Header */}
-      <header className="relative z-10 border-b border-zinc-800/50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
-          <div className="flex items-center justify-between">
-            <a
-              href="https://testerscommunity.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 hover:opacity-80 transition-opacity"
-            >
-              <img
-                src="/tc-icon.webp"
-                alt="Testers Community"
-                width={44}
-                height={44}
-                className="rounded-xl"
-              />
-              <div>
-                <h1 className="text-lg font-bold">AAB Signer</h1>
-                <p className="text-xs text-zinc-500">by Testers Community</p>
-              </div>
-            </a>
-            <div className="flex items-center gap-3">
-              <a
-                href="https://github.com/Testers-Community/android-aab-signer"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-800/50 border border-zinc-700/50 hover:border-zinc-600 transition-colors text-sm text-zinc-300 hover:text-white"
-              >
-                <GitHubIcon className="w-4 h-4" />
-                <span className="hidden sm:inline">View Source</span>
-              </a>
-            </div>
-          </div>
+      <header
+        className="sticky top-0 z-40 border-b"
+        style={{
+          background: 'rgba(255,255,255,0.96)',
+          borderColor: 'rgba(26,22,21,0.08)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+        }}
+      >
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 h-16 flex items-center justify-between">
+          <a
+            href="https://testerscommunity.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 transition-opacity hover:opacity-70"
+          >
+            <img
+              src="/tc-icon.webp"
+              alt="Testers Community"
+              width={34}
+              height={34}
+              className="rounded-[9px]"
+            />
+            <span className="flex flex-col leading-none">
+              <span className="text-[15px] font-bold" style={{ color: '#1a1615', letterSpacing: '-0.2px' }}>
+                AAB Signer
+              </span>
+              <span className="text-[12px] mt-1" style={{ color: '#94a3b8' }}>
+                by Testers Community
+              </span>
+            </span>
+          </a>
+
+          <a
+            href={REPO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold transition-colors"
+            style={{
+              background: 'rgba(5,74,218,0.07)',
+              border: '1px solid rgba(5,74,218,0.15)',
+              color: '#054ada',
+            }}
+          >
+            <GitHubIcon className="w-4 h-4" />
+            <span className="hidden sm:inline">View source</span>
+          </a>
         </div>
       </header>
 
-      <main className="relative z-10">
-        {/* Hero Section */}
-        <section className="pt-16 pb-8 sm:pt-24 sm:pb-12">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            {/* Badge */}
-            <div className="flex justify-center mb-6">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-lime-500/10 text-lime-400 text-sm font-medium border border-lime-500/20">
-                <span className="w-2 h-2 bg-lime-400 rounded-full animate-pulse" />
-                100% Free & Open Source
-              </span>
-            </div>
+      <main>
+        {/* Hero - the solid brand band used across the guides */}
+        <section
+          className="flex w-full flex-col items-center px-5 pt-16 pb-36 sm:pt-20 sm:pb-40"
+          style={{ background: '#054ada' }}
+        >
+          <div className="flex w-full max-w-[720px] flex-col items-center text-center">
+            <span
+              className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-medium mb-6"
+              style={{
+                backgroundColor: 'rgba(255,255,255,0.15)',
+                color: 'rgba(255,255,255,0.9)',
+                border: '1px solid rgba(255,255,255,0.2)',
+              }}
+            >
+              <CodeIcon className="h-3.5 w-3.5" />
+              Free and open source
+            </span>
 
-            {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-center mb-6 leading-tight">
-              Sign Your Android App Bundle
-              <br />
-              <span className="gradient-text">in Seconds</span>
+            <h1 className="font-bold text-white mb-5 text-[34px] leading-[1.12] tracking-[-1px] min-[600px]:text-[48px] min-[600px]:tracking-[-1.6px]">
+              Sign your Android App Bundle in seconds
             </h1>
 
-            {/* Subheadline */}
-            <p className="text-lg sm:text-xl text-zinc-400 text-center max-w-2xl mx-auto mb-8">
-              Upload your unsigned AAB, provide your keystore, and get a signed bundle
-              ready for Google Play. Powered by GitHub Actions.
+            <p className="max-w-[520px] text-[17px] leading-[1.7]" style={{ color: 'rgba(255,255,255,0.75)' }}>
+              Upload your unsigned AAB and keystore, and get a signed bundle ready for Google Play.
+              No Android Studio, no command line.
             </p>
 
-            {/* Trust Indicators */}
-            <div className="flex flex-wrap justify-center gap-3 mb-12">
+            {/* Trust row */}
+            <div className="mt-8 flex flex-wrap justify-center gap-2.5">
               {[
-                { icon: <CheckIcon className="w-4 h-4" />, text: "No Sign-up Required" },
-                { icon: <LockIcon className="w-4 h-4" />, text: "Your Keys Stay Private" },
-                { icon: <CodeIcon className="w-4 h-4" />, text: "Open Source" },
-                { icon: <GitHubIcon className="w-4 h-4" />, text: "GitHub Actions Powered" },
+                { icon: <CheckIcon className="w-3.5 h-3.5" />, text: "No sign-up" },
+                { icon: <LockIcon className="w-3.5 h-3.5" />, text: "Keys never stored" },
+                { icon: <CodeIcon className="w-3.5 h-3.5" />, text: "Auditable workflow" },
+                { icon: <GitHubIcon className="w-3.5 h-3.5" />, text: "Runs on GitHub Actions" },
               ].map((item, index) => (
-                <div
+                <span
                   key={index}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-800/50 border border-zinc-700/50 text-sm text-zinc-300"
+                  className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-[13px] font-medium"
+                  style={{
+                    backgroundColor: 'rgba(255,255,255,0.12)',
+                    color: 'rgba(255,255,255,0.85)',
+                    border: '1px solid rgba(255,255,255,0.16)',
+                  }}
                 >
-                  <span className="text-zinc-500">{item.icon}</span>
+                  {item.icon}
                   {item.text}
-                </div>
+                </span>
               ))}
-            </div>
-
-            {/* Main Form Card */}
-            <div className="max-w-xl mx-auto">
-              <div className="glass-card gradient-border rounded-2xl p-6 sm:p-8 glow">
-                <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                  <ShieldCheckIcon className="w-5 h-5 text-lime-400" />
-                  Sign Your AAB
-                </h2>
-
-                <UploadForm
-                  onSubmit={handleSubmit}
-                  disabled={isProcessing}
-                />
-
-                {/* Security Note */}
-                <div className="mt-6 flex items-start gap-3 p-4 rounded-xl bg-zinc-800/30 border border-zinc-700/30">
-                  <LockIcon className="w-5 h-5 text-lime-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-zinc-400">
-                    Your keystore and passwords are used only during signing and are immediately deleted.
-                    We never store your credentials.
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
         </section>
 
-        {/* Signing Progress Modal */}
-        {showSigningModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-            <div className="glass-card rounded-2xl p-6 sm:p-8 max-w-md w-full animate-fade-in">
-              <ProgressDisplay
-                status={status}
-                error={error}
-                downloadUrl={downloadUrl}
-                onReset={handleReset}
-              />
-            </div>
+        {/* Everything below the hero sits on the tinted canvas */}
+        <div className="relative flow-root tc-canvas">
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div className="absolute inset-0 tc-dots" />
+            <div
+              className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[320px] rounded-full blur-[120px]"
+              style={{ background: 'rgba(5,74,218,0.06)' }}
+            />
           </div>
-        )}
 
-        {/* How It Works Section */}
-        <section id="how-it-works" className="py-20 sm:py-28">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          {/* Form card, lifted over the blue band */}
+          <section className="relative z-10 mx-auto max-w-[620px] px-5 -mt-28">
+            <div className="tc-card p-6 sm:p-8" style={{ background: '#ffffff' }}>
+              <div className="flex items-center gap-2.5 mb-6">
+                <span style={{ color: '#054ada' }}><ShieldCheckIcon className="w-5 h-5" /></span>
+                <h2 className="text-[19px] font-bold" style={{ color: '#1a1615', letterSpacing: '-0.3px' }}>
+                  Sign your AAB
+                </h2>
+              </div>
+
+              <UploadForm
+                onSubmit={handleSubmit}
+                disabled={isProcessing}
+              />
+
+              {/* Security note */}
+              <div
+                className="mt-6 flex items-start gap-3 rounded-2xl p-4"
+                style={{ background: 'rgba(5,74,218,0.05)', border: '1px solid rgba(5,74,218,0.12)' }}
+              >
+                <span className="flex-shrink-0 mt-0.5" style={{ color: '#054ada' }}>
+                  <LockIcon className="w-[18px] h-[18px]" />
+                </span>
+                <p className="text-[13.5px] leading-[1.6]" style={{ color: '#5a6272' }}>
+                  Your keystore and passwords are used only during signing and are deleted immediately after.
+                  We never store your credentials.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* How It Works */}
+          <section id="how-it-works" className="relative z-10 mx-auto max-w-5xl px-5 pt-20 pb-6 sm:pt-28">
             <div className="text-center mb-12">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">How It Works</h2>
-              <p className="text-zinc-400 text-lg">Simple, transparent, and secure signing process</p>
+              <h2 className="text-[28px] sm:text-[34px] font-bold mb-3" style={{ color: '#1a1615', letterSpacing: '-1px' }}>
+                How it works
+              </h2>
+              <p className="text-[16px]" style={{ color: '#5a6272' }}>
+                Four steps, about thirty seconds, nothing installed.
+              </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 {
-                  icon: <UploadCloudIcon className="w-7 h-7" />,
-                  title: "Upload Your Files",
-                  description: "Drop your unsigned AAB and keystore file. Everything stays secure until submission."
+                  icon: <UploadCloudIcon className="w-5 h-5" />,
+                  title: "Upload your files",
+                  description: "Drop your unsigned AAB and keystore file. Everything stays in your browser until you submit."
                 },
                 {
-                  icon: <LockIcon className="w-7 h-7" />,
-                  title: "Secure Processing",
-                  description: "Files are temporarily uploaded to trigger a GitHub Actions workflow. Deleted immediately after."
+                  icon: <LockIcon className="w-5 h-5" />,
+                  title: "Secure transfer",
+                  description: "Files are held just long enough to trigger a GitHub Actions run, then deleted."
                 },
                 {
-                  icon: <CogIcon className="w-7 h-7" />,
-                  title: "Automated Signing",
-                  description: "GitHub Actions runs jarsigner to properly sign your bundle - the same tools Google recommends."
+                  icon: <CogIcon className="w-5 h-5" />,
+                  title: "Automated signing",
+                  description: "GitHub Actions runs jarsigner to sign your bundle, the same tool Google recommends."
                 },
                 {
-                  icon: <DownloadIcon className="w-7 h-7" />,
-                  title: "Download & Publish",
-                  description: "Get your signed AAB ready to upload directly to Google Play Console. That's it!"
+                  icon: <DownloadIcon className="w-5 h-5" />,
+                  title: "Download and publish",
+                  description: "Get your signed AAB back, ready to upload straight to Play Console."
                 }
               ].map((step, index) => (
-                <div key={index} className="group">
-                  <div className="h-full p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 transition-all duration-300 hover:-translate-y-1">
-                    <div className="w-12 h-12 mb-4 rounded-xl bg-zinc-800 flex items-center justify-center text-lime-400 group-hover:bg-lime-500/10 transition-colors">
-                      {step.icon}
-                    </div>
-                    <div className="text-xs text-lime-400 font-medium mb-2">Step {index + 1}</div>
-                    <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
-                    <p className="text-zinc-400 text-sm leading-relaxed">{step.description}</p>
+                <li key={index} className="tc-card tc-card-hover relative p-6 pt-7">
+                  {/* Ghosted step numeral, no tinted icon tile */}
+                  <span
+                    className="absolute right-5 top-4 text-[40px] font-bold leading-none select-none"
+                    style={{ color: 'rgba(5,74,218,0.08)' }}
+                    aria-hidden="true"
+                  >
+                    {index + 1}
+                  </span>
+                  <span style={{ color: '#054ada' }}>{step.icon}</span>
+                  <h3 className="mt-4 mb-2 text-[16px] font-bold" style={{ color: '#1a1615', letterSpacing: '-0.2px' }}>
+                    {step.title}
+                  </h3>
+                  <p className="text-[14px] leading-[1.65]" style={{ color: '#5a6272' }}>
+                    {step.description}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          {/* Testers Community promo */}
+          <section className="relative z-10 mx-auto max-w-5xl px-5 py-16 sm:py-20">
+            <div
+              className="relative overflow-hidden rounded-[24px] px-7 py-9 sm:px-12 sm:py-12"
+              style={{ background: '#054ada' }}
+            >
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -top-24 -right-16 w-80 h-80 rounded-full blur-[90px]"
+                style={{ background: 'rgba(255,255,255,0.12)' }}
+              />
+
+              <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+                <div className="flex-1">
+                  <a
+                    href="https://testerscommunity.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[12px] font-medium mb-5 transition-colors"
+                    style={{
+                      backgroundColor: 'rgba(255,255,255,0.15)',
+                      color: 'rgba(255,255,255,0.92)',
+                      border: '1px solid rgba(255,255,255,0.2)',
+                    }}
+                  >
+                    <img src="/tc-icon.webp" alt="" width={18} height={18} className="rounded" />
+                    From the makers of Testers Community
+                  </a>
+
+                  <h3 className="text-white font-bold mb-3 text-[26px] sm:text-[32px] leading-[1.15] tracking-[-0.8px]">
+                    Need testers for Google Play?
+                  </h3>
+                  <p className="max-w-xl text-[16px] leading-[1.7] mb-6" style={{ color: 'rgba(255,255,255,0.75)' }}>
+                    Production access requires 12 testers opted in for 14 consecutive days.
+                    Finding reliable testers is the hard part. We handle it.
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5 max-w-xl">
+                    {[
+                      "15 professional testers in 6 hours",
+                      "16 days of testing",
+                      "Production access guarantee",
+                      "99.9% success rate"
+                    ].map((feature, index) => (
+                      <div key={index} className="flex items-center gap-2 text-[14px]" style={{ color: 'rgba(255,255,255,0.9)' }}>
+                        <CheckIcon className="w-4 h-4 flex-shrink-0" />
+                        {feature}
+                      </div>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
-        {/* Testers Community Promo Banner */}
-        <section className="py-12 sm:py-16">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 border border-zinc-700/50">
-              {/* Accent glow */}
-              <div className="absolute top-0 right-0 w-96 h-96 bg-lime-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-
-              <div className="relative p-8 sm:p-12">
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-                  <div className="flex-1">
-                    <a
-                      href="https://testerscommunity.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-lime-500/10 text-lime-400 text-xs font-medium mb-4 hover:bg-lime-500/20 transition-colors cursor-pointer"
-                    >
-                      <img
-                        src="/tc-icon.webp"
-                        alt="Testers Community"
-                        width={20}
-                        height={20}
-                        className="rounded"
-                      />
-                      From the makers of Testers Community
-                    </a>
-                    <h3 className="text-2xl sm:text-3xl font-bold mb-3">Need Testers for Google Play?</h3>
-                    <p className="text-zinc-400 text-lg mb-6 max-w-xl">
-                      Getting production access on Google Play requires 12 testers for 14 consecutive days.
-                      Finding reliable testers is hard - we make it easy.
-                    </p>
-
-                    <div className="grid grid-cols-2 gap-3 mb-6">
-                      {[
-                        "25 Professional Testers in 6 hours",
-                        "16 Days of Testing",
-                        "Production Access Guarantee",
-                        "99% Success Rate"
-                      ].map((feature, index) => (
-                        <div key={index} className="flex items-center gap-2 text-sm text-zinc-300">
-                          <CheckIcon className="w-4 h-4 text-lime-400 flex-shrink-0" />
-                          {feature}
-                        </div>
-                      ))}
-                    </div>
+                <div className="lg:text-center lg:pl-8 flex-shrink-0">
+                  <div className="mb-4">
+                    <span className="text-[40px] font-bold text-white leading-none">$15</span>
+                    <span className="ml-2 text-[15px]" style={{ color: 'rgba(255,255,255,0.7)' }}>one-time</span>
                   </div>
-
-                  <div className="lg:text-center">
-                    <div className="mb-4">
-                      <span className="text-4xl font-bold text-white">$15</span>
-                      <span className="text-zinc-400 ml-2">one-time</span>
-                    </div>
-                    <a
-                      href="https://testerscommunity.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-3 btn-primary rounded-xl text-black font-semibold"
-                    >
-                      Get Testers Now
-                      <ArrowRightIcon className="w-4 h-4" />
-                    </a>
-                    <a
-                      href="https://testerscommunity.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block mt-3 text-sm text-zinc-400 hover:text-lime-400 transition-colors"
-                    >
-                      Learn more about testing requirements
-                      <ExternalLinkIcon className="inline w-3 h-3 ml-1" />
-                    </a>
-                  </div>
+                  <a
+                    href="https://testerscommunity.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-[15px] font-semibold transition-opacity hover:opacity-90"
+                    style={{ background: '#ffffff', color: '#054ada' }}
+                  >
+                    Get testers
+                    <ArrowRightIcon className="w-4 h-4" />
+                  </a>
+                  <a
+                    href="https://testerscommunity.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block mt-3.5 text-[13px] transition-opacity hover:opacity-100"
+                    style={{ color: 'rgba(255,255,255,0.7)' }}
+                  >
+                    Learn about the requirements
+                    <ExternalLinkIcon className="inline w-3 h-3 ml-1.5" />
+                  </a>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Why Trust Us Section */}
-        <section className="py-20 sm:py-28">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          {/* Why trust us */}
+          <section className="relative z-10 mx-auto max-w-5xl px-5 pb-6">
             <div className="text-center mb-12">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Fully Open Source & Transparent</h2>
-              <p className="text-zinc-400 text-lg">See exactly what happens to your files</p>
+              <h2 className="text-[28px] sm:text-[34px] font-bold mb-3" style={{ color: '#1a1615', letterSpacing: '-1px' }}>
+                Open source, end to end
+              </h2>
+              <p className="text-[16px]" style={{ color: '#5a6272' }}>
+                See exactly what happens to your files.
+              </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid gap-4 md:grid-cols-3">
               {[
                 {
-                  icon: <CodeIcon className="w-7 h-7" />,
-                  title: "Inspect Our Code",
-                  description: "Every line of code is public. Check the GitHub Actions workflow file to see exactly what runs on your files - no secrets, no hidden logic.",
+                  icon: <CodeIcon className="w-5 h-5" />,
+                  title: "Inspect our code",
+                  description: "Every line is public. Read the GitHub Actions workflow to see exactly what runs on your files. No secrets, no hidden logic.",
                   action: {
-                    text: "View Source Code",
-                    href: "https://github.com/Testers-Community/android-aab-signer"
+                    text: "View source code",
+                    href: REPO_URL
                   },
                   secondaryAction: {
-                    text: "See the Workflow",
-                    href: "https://github.com/Testers-Community/android-aab-signer/blob/main/.github/workflows/sign.yml"
+                    text: "See the workflow",
+                    href: `${REPO_URL}/blob/main/.github/workflows/sign.yml`
                   }
                 },
                 {
-                  icon: <TrashIcon className="w-7 h-7" />,
-                  title: "No Data Storage",
-                  description: "Files are processed in ephemeral GitHub VMs and deleted immediately. We don't store your AAB, keystore, or any credentials. Ever."
+                  icon: <TrashIcon className="w-5 h-5" />,
+                  title: "No data storage",
+                  description: "Files are processed in ephemeral GitHub VMs and deleted immediately. We do not store your AAB, your keystore, or any credentials."
                 },
                 {
-                  icon: <UsersIcon className="w-7 h-7" />,
-                  title: "Community Trusted",
-                  description: "Used by thousands of Android developers. Part of the Testers Community ecosystem trusted by 15,000+ developers."
+                  icon: <UsersIcon className="w-5 h-5" />,
+                  title: "Community built",
+                  description: "Part of the Testers Community toolkit, alongside the closed testing service that has helped publish 10,000+ apps."
                 }
               ].map((card, index) => (
-                <div key={index} className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-zinc-700 transition-colors">
-                  <div className="w-12 h-12 mb-4 rounded-xl bg-zinc-800 flex items-center justify-center text-lime-400">
-                    {card.icon}
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">{card.title}</h3>
-                  <p className="text-zinc-400 text-sm leading-relaxed mb-4">{card.description}</p>
-                  <div className="flex flex-wrap gap-x-4 gap-y-2">
-                    {card.action && (
-                      <a
-                        href={card.action.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-sm text-lime-400 hover:text-lime-300 transition-colors"
-                      >
-                        {card.action.text}
-                        <ExternalLinkIcon className="w-3 h-3" />
-                      </a>
-                    )}
-                    {card.secondaryAction && (
-                      <a
-                        href={card.secondaryAction.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-300 transition-colors"
-                      >
-                        {card.secondaryAction.text}
-                        <ExternalLinkIcon className="w-3 h-3" />
-                      </a>
-                    )}
-                  </div>
+                <div key={index} className="tc-card tc-card-hover p-6 flex flex-col">
+                  <span style={{ color: '#054ada' }}>{card.icon}</span>
+                  <h3 className="mt-4 mb-2 text-[16px] font-bold" style={{ color: '#1a1615', letterSpacing: '-0.2px' }}>
+                    {card.title}
+                  </h3>
+                  <p className="text-[14px] leading-[1.65] mb-4 flex-1" style={{ color: '#5a6272' }}>
+                    {card.description}
+                  </p>
+                  {(card.action || card.secondaryAction) && (
+                    <div className="flex flex-wrap gap-x-4 gap-y-2">
+                      {card.action && (
+                        <a
+                          href={card.action.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-[13.5px] font-semibold hover:underline underline-offset-2"
+                          style={{ color: '#054ada' }}
+                        >
+                          {card.action.text}
+                          <ExternalLinkIcon className="w-3 h-3" />
+                        </a>
+                      )}
+                      {card.secondaryAction && (
+                        <a
+                          href={card.secondaryAction.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-[13.5px] hover:underline underline-offset-2"
+                          style={{ color: '#5a6272' }}
+                        >
+                          {card.secondaryAction.text}
+                          <ExternalLinkIcon className="w-3 h-3" />
+                        </a>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Live Workflow Visualization */}
-        <section className="py-16 sm:py-20">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="rounded-2xl bg-zinc-900/50 border border-zinc-800 overflow-hidden">
-              <div className="p-6 sm:p-8 border-b border-zinc-800">
-                <h2 className="text-2xl font-bold mb-2">Watch It Happen</h2>
-                <p className="text-zinc-400">
-                  Real-time visibility into the signing process. Every workflow run is public -
-                  <span className="text-white"> you can see exactly what code runs on your files.</span>
+          {/* Live workflow visualisation */}
+          <section className="relative z-10 mx-auto max-w-5xl px-5 py-16 sm:py-20">
+            <div className="tc-card overflow-hidden">
+              <div className="p-6 sm:p-8 border-b" style={{ borderColor: 'rgba(26,22,21,0.08)' }}>
+                <h2 className="text-[21px] font-bold mb-2" style={{ color: '#1a1615', letterSpacing: '-0.4px' }}>
+                  Watch it happen
+                </h2>
+                <p className="text-[14.5px] leading-[1.7]" style={{ color: '#5a6272' }}>
+                  Every workflow run is public.{' '}
+                  <span style={{ color: '#1a1615', fontWeight: 600 }}>
+                    You can see exactly what code runs on your files.
+                  </span>
                 </p>
               </div>
 
-              <div className="p-6 sm:p-8 bg-zinc-950/50 font-mono text-sm">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <span className="text-lime-400">&#10003;</span>
-                    <span className="text-zinc-300">Uploading files securely...</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-lime-400">&#10003;</span>
-                    <span className="text-zinc-300">Triggering GitHub Actions workflow...</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-yellow-400 animate-pulse">&#9679;</span>
-                    <span className="text-zinc-300">Running jarsigner...</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-zinc-600">&#9675;</span>
-                    <span className="text-zinc-500">Verifying signature...</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-zinc-600">&#9675;</span>
-                    <span className="text-zinc-500">Ready for download</span>
+              <div className="p-5 sm:p-7">
+                <div className="tc-code p-5 sm:p-6">
+                  <div className="space-y-2.5">
+                    <div className="flex items-center gap-3">
+                      <span style={{ color: '#4ade80' }}>&#10003;</span>
+                      <span style={{ color: 'rgba(245,245,244,0.85)' }}>Uploading files securely...</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span style={{ color: '#4ade80' }}>&#10003;</span>
+                      <span style={{ color: 'rgba(245,245,244,0.85)' }}>Triggering GitHub Actions workflow...</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className="animate-pulse" style={{ color: '#7aa5f7' }}>&#9679;</span>
+                      <span style={{ color: 'rgba(245,245,244,0.85)' }}>Running jarsigner...</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span style={{ color: 'rgba(245,245,244,0.3)' }}>&#9675;</span>
+                      <span style={{ color: 'rgba(245,245,244,0.4)' }}>Verifying signature...</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span style={{ color: 'rgba(245,245,244,0.3)' }}>&#9675;</span>
+                      <span style={{ color: 'rgba(245,245,244,0.4)' }}>Ready for download</span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="p-4 border-t border-zinc-800 bg-zinc-900/30 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                <p className="text-xs text-zinc-500">
-                  Don't trust us? Check the workflow yourself - it's all open source.
+              <div
+                className="px-6 py-4 border-t flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+                style={{ borderColor: 'rgba(26,22,21,0.08)', background: 'rgba(248,250,252,0.7)' }}
+              >
+                <p className="text-[12.5px]" style={{ color: '#94a3b8' }}>
+                  Do not take our word for it. Check the workflow yourself.
                 </p>
                 <a
-                  href="https://github.com/Testers-Community/android-aab-signer/actions"
+                  href={`${REPO_URL}/actions`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm text-lime-400 hover:text-lime-300 transition-colors font-medium"
+                  className="inline-flex items-center gap-2 text-[13.5px] font-semibold hover:underline underline-offset-2"
+                  style={{ color: '#054ada' }}
                 >
                   <GitHubIcon className="w-4 h-4" />
-                  View Live Workflow Runs
+                  View live workflow runs
                   <ExternalLinkIcon className="w-3 h-3" />
                 </a>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* FAQ Section */}
-        <section id="faq" className="py-20 sm:py-28">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          {/* FAQ */}
+          <section id="faq" className="relative z-10 mx-auto max-w-3xl px-5 pb-20 sm:pb-28">
             <div className="text-center mb-12">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-              <p className="text-zinc-400 text-lg">Everything you need to know about AAB signing</p>
+              <h2 className="text-[28px] sm:text-[34px] font-bold mb-3" style={{ color: '#1a1615', letterSpacing: '-1px' }}>
+                Frequently asked questions
+              </h2>
+              <p className="text-[16px]" style={{ color: '#5a6272' }}>
+                Everything you need to know about AAB signing.
+              </p>
             </div>
 
-            <div className="rounded-2xl bg-zinc-900/50 border border-zinc-800 p-6 sm:p-8">
+            <div className="tc-card px-6 py-2 sm:px-8">
               {faqData.map((faq, index) => (
                 <FAQItem key={index} question={faq.question} answer={faq.answer} />
               ))}
             </div>
 
-            {/* Support Contact */}
-            <div className="mt-8 text-center p-6 rounded-2xl bg-zinc-900/30 border border-zinc-800/50">
-              <p className="text-zinc-400 mb-2">Still have questions or running into issues?</p>
+            <div className="mt-8 text-center">
+              <p className="text-[14.5px] mb-2" style={{ color: '#5a6272' }}>
+                Still have questions, or running into something odd?
+              </p>
               <a
                 href="mailto:support@testerscommunity.com"
-                className="inline-flex items-center gap-2 text-lime-400 hover:text-lime-300 transition-colors font-medium"
+                className="inline-flex items-center gap-2 text-[14.5px] font-semibold hover:underline underline-offset-2"
+                style={{ color: '#054ada' }}
               >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
+                <MailIcon className="w-4 h-4" />
                 support@testerscommunity.com
               </a>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-zinc-800/50 py-12">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            {/* Logo & Tagline */}
+      {/* Signing progress modal */}
+      {showSigningModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: 'rgba(26,22,21,0.45)', backdropFilter: 'blur(4px)' }}
+        >
+          <div
+            className="w-full max-w-md rounded-[20px] p-6 sm:p-8 animate-fade-in"
+            style={{
+              background: '#ffffff',
+              border: '1px solid rgba(26,22,21,0.08)',
+              boxShadow: '0 24px 60px rgba(0,0,0,0.18)',
+            }}
+          >
+            <ProgressDisplay
+              status={status}
+              error={error}
+              downloadUrl={downloadUrl}
+              onReset={handleReset}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Footer - plain text and air, one accent, no chrome */}
+      <footer className="border-t" style={{ borderColor: 'rgba(26,22,21,0.08)', background: '#ffffff' }}>
+        <div className="max-w-6xl mx-auto px-5 sm:px-6 py-12">
+          <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
             <a
               href="https://testerscommunity.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+              className="flex items-center gap-3 transition-opacity hover:opacity-70"
             >
               <img
                 src="/tc-icon.webp"
                 alt="Testers Community"
-                width={36}
-                height={36}
+                width={32}
+                height={32}
                 className="rounded-lg"
               />
-              <div>
-                <span className="font-semibold">AAB Signer</span>
-                <span className="text-zinc-500 text-sm ml-2">A free tool by Testers Community</span>
-              </div>
+              <span className="flex flex-col leading-none">
+                <span className="text-[14px] font-semibold" style={{ color: '#1a1615' }}>AAB Signer</span>
+                <span className="text-[12.5px] mt-1" style={{ color: '#94a3b8' }}>
+                  A free tool by Testers Community
+                </span>
+              </span>
             </a>
 
-            {/* Links */}
-            <div className="flex items-center gap-6 text-sm">
+            <nav className="flex flex-wrap gap-x-7 gap-y-3 text-[13.5px]">
               <a
                 href="https://testerscommunity.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-zinc-400 hover:text-white transition-colors"
+                className="transition-colors hover:text-[#1a1615]"
+                style={{ color: '#5a6272' }}
               >
                 Testers Community
               </a>
               <a
-                href="https://github.com/Testers-Community/android-aab-signer"
+                href={REPO_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-zinc-400 hover:text-white transition-colors"
+                className="transition-colors hover:text-[#1a1615]"
+                style={{ color: '#5a6272' }}
               >
-                GitHub Repository
+                GitHub repository
               </a>
               <a
-                href="https://github.com/Testers-Community/android-aab-signer/issues"
+                href={`${REPO_URL}/issues`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-zinc-400 hover:text-white transition-colors"
+                className="transition-colors hover:text-[#1a1615]"
+                style={{ color: '#5a6272' }}
               >
-                Report an Issue
+                Report an issue
               </a>
               <a
                 href="mailto:support@testerscommunity.com"
-                className="text-zinc-400 hover:text-white transition-colors"
+                className="transition-colors hover:text-[#1a1615]"
+                style={{ color: '#5a6272' }}
               >
                 Contact
               </a>
-            </div>
+            </nav>
           </div>
 
-          <div className="mt-8 pt-8 border-t border-zinc-800/50 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-zinc-500">
-            <p>Made with care for Android Developers</p>
+          <div
+            className="mt-10 pt-7 border-t flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-[12.5px]"
+            style={{ borderColor: 'rgba(26,22,21,0.08)', color: '#94a3b8' }}
+          >
+            <p>Made with care for Android developers</p>
             <p>&copy; {new Date().getFullYear()} Testers Community. Open source.</p>
           </div>
         </div>

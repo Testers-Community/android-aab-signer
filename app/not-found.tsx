@@ -12,41 +12,40 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-[#09090b] text-white flex items-center justify-center">
-      {/* Background Effects */}
-      <div className="fixed inset-0 radial-gradient pointer-events-none" />
-      <div className="fixed inset-0 grid-pattern opacity-30 pointer-events-none" />
+    <div className="tc-canvas relative flex min-h-screen items-center justify-center overflow-hidden">
+      <div aria-hidden="true" className="tc-dots pointer-events-none absolute inset-0" />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-0 left-1/2 h-[320px] w-[700px] -translate-x-1/2 rounded-full blur-[120px]"
+        style={{ background: 'rgba(5,74,218,0.06)' }}
+      />
 
-      <div className="relative z-10 text-center max-w-md px-6">
-        {/* 404 Number */}
-        <div className="mb-6">
-          <span className="text-8xl font-bold bg-gradient-to-r from-lime-400 to-lime-500 bg-clip-text text-transparent">
-            404
-          </span>
-        </div>
+      <div className="relative z-10 max-w-md px-6 text-center">
+        <span
+          className="inline-flex items-center rounded-full px-4 py-2 text-[13px] font-medium"
+          style={{
+            background: 'rgba(5,74,218,0.07)',
+            border: '1px solid rgba(5,74,218,0.15)',
+            color: '#054ada',
+          }}
+        >
+          404
+        </span>
 
-        {/* Heading */}
-        <h1 className="text-2xl sm:text-3xl font-bold mb-4">
-          Page Not Found
+        <h1
+          className="mt-6 mb-4 text-[30px] font-bold leading-[1.15] sm:text-[36px]"
+          style={{ color: '#1a1615', letterSpacing: '-1px' }}
+        >
+          Page not found
         </h1>
 
-        {/* Description */}
-        <p className="text-zinc-400 mb-8 leading-relaxed">
-          The page you&apos;re looking for doesn&apos;t exist or has been moved.
-          Let&apos;s get you back to signing AAB files.
+        <p className="mb-8 text-[16px] leading-[1.7]" style={{ color: '#5a6272' }}>
+          The page you are looking for does not exist or has moved.
+          Let us get you back to signing AAB files.
         </p>
 
-        {/* CTA Button */}
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-lime-500 hover:bg-lime-400 text-black font-semibold rounded-xl transition-colors"
-        >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+        <Link href="/" className="btn-primary px-6 py-3.5 text-[15px]">
+          <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -57,33 +56,33 @@ export default function NotFound() {
           Back to AAB Signer
         </Link>
 
-        {/* Helpful links */}
-        <div className="mt-8 pt-8 border-t border-zinc-800">
-          <p className="text-sm text-zinc-500 mb-4">Or check out these resources:</p>
-          <div className="flex flex-wrap justify-center gap-4 text-sm">
+        <div className="mt-10 border-t pt-8" style={{ borderColor: 'rgba(26,22,21,0.08)' }}>
+          <p className="mb-4 text-[13px]" style={{ color: '#94a3b8' }}>Or head to one of these:</p>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13.5px]">
             <a
               href="https://github.com/Testers-Community/android-aab-signer"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-zinc-400 hover:text-lime-400 transition-colors"
+              className="transition-colors hover:underline underline-offset-2"
+              style={{ color: '#5a6272' }}
             >
-              GitHub Repo
+              GitHub repo
             </a>
-            <span className="text-zinc-700">•</span>
             <a
               href="https://testerscommunity.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-zinc-400 hover:text-lime-400 transition-colors"
+              className="transition-colors hover:underline underline-offset-2"
+              style={{ color: '#5a6272' }}
             >
               Testers Community
             </a>
-            <span className="text-zinc-700">•</span>
             <a
               href="mailto:support@testerscommunity.com"
-              className="text-zinc-400 hover:text-lime-400 transition-colors"
+              className="transition-colors hover:underline underline-offset-2"
+              style={{ color: '#5a6272' }}
             >
-              Contact Support
+              Contact support
             </a>
           </div>
         </div>

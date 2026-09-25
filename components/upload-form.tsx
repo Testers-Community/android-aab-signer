@@ -54,6 +54,12 @@ const EyeOffIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
   </svg>
 );
 
+const AlertIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+);
+
 const ArrowRightIcon = ({ className = "w-5 h-5" }: { className?: string }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -191,16 +197,16 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
     <form onSubmit={handleSubmit} className="space-y-5">
       {/* AAB File Upload */}
       <div>
-        <label className="block text-sm font-medium text-zinc-300 mb-2">
+        <label className="mb-2 block text-[13.5px] font-semibold" style={{ color: '#1a1615' }}>
           Android App Bundle (AAB)
         </label>
         <div
-          className={`relative border-2 border-dashed rounded-xl p-5 text-center cursor-pointer transition-all duration-200 ${isDraggingAab
-              ? 'border-lime-400 bg-lime-500/10'
+          className={`tc-drop relative cursor-pointer p-5 text-center ${isDraggingAab
+              ? 'tc-drop-active'
               : aabFile
-                ? 'border-lime-500/50 bg-lime-500/5'
-                : 'border-zinc-700 hover:border-zinc-600 hover:bg-zinc-800/30'
-            } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                ? 'tc-drop-filled'
+                : ''
+            } ${disabled ? 'cursor-not-allowed opacity-60' : ''}`}
           onDragOver={e => {
             e.preventDefault();
             if (!disabled) setIsDraggingAab(true);
@@ -219,25 +225,25 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
           />
           {aabFile ? (
             <div className="flex items-center justify-center gap-3">
-              <CheckCircleIcon className="w-8 h-8 text-lime-400" />
+              <span style={{ color: '#059669' }}><CheckCircleIcon className="w-7 h-7" /></span>
               <div className="text-left">
-                <p className="font-medium text-white truncate max-w-[200px]">{aabFile.name}</p>
-                <p className="text-sm text-zinc-400">{formatFileSize(aabFile.size)}</p>
+                <p className="max-w-[220px] truncate text-[14.5px] font-semibold" style={{ color: '#1a1615' }}>{aabFile.name}</p>
+                <p className="text-[13px]" style={{ color: '#5a6272' }}>{formatFileSize(aabFile.size)}</p>
               </div>
             </div>
           ) : (
             <div className="py-2">
-              <PackageIcon className="w-10 h-10 mx-auto mb-3 text-zinc-500" />
-              <p className="text-zinc-300 font-medium">Drop your .aab file here</p>
-              <p className="text-sm text-zinc-500 mt-1">or click to browse (max {formatFileSize(MAX_AAB_SIZE)})</p>
+              <span className="mx-auto mb-3 block w-fit" style={{ color: '#94a3b8' }}>
+                <PackageIcon className="w-9 h-9" />
+              </span>
+              <p className="text-[14.5px] font-semibold" style={{ color: '#1a1615' }}>Drop your .aab file here</p>
+              <p className="mt-1 text-[13px]" style={{ color: '#94a3b8' }}>or click to browse (max {formatFileSize(MAX_AAB_SIZE)})</p>
             </div>
           )}
         </div>
         {errors.aab && (
-          <p className="mt-2 text-sm text-red-400 flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+          <p className="mt-2 flex items-center gap-1.5 text-[13px]" style={{ color: '#dc2626' }}>
+            <AlertIcon className="w-4 h-4 flex-shrink-0" />
             {errors.aab}
           </p>
         )}
@@ -245,16 +251,16 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
 
       {/* Keystore File Upload */}
       <div>
-        <label className="block text-sm font-medium text-zinc-300 mb-2">
-          Keystore File
+        <label className="mb-2 block text-[13.5px] font-semibold" style={{ color: '#1a1615' }}>
+          Keystore file
         </label>
         <div
-          className={`relative border-2 border-dashed rounded-xl p-5 text-center cursor-pointer transition-all duration-200 ${isDraggingKeystore
-              ? 'border-lime-400 bg-lime-500/10'
+          className={`tc-drop relative cursor-pointer p-5 text-center ${isDraggingKeystore
+              ? 'tc-drop-active'
               : keystoreFile
-                ? 'border-lime-500/50 bg-lime-500/5'
-                : 'border-zinc-700 hover:border-zinc-600 hover:bg-zinc-800/30'
-            } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                ? 'tc-drop-filled'
+                : ''
+            } ${disabled ? 'cursor-not-allowed opacity-60' : ''}`}
           onDragOver={e => {
             e.preventDefault();
             if (!disabled) setIsDraggingKeystore(true);
@@ -273,25 +279,25 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
           />
           {keystoreFile ? (
             <div className="flex items-center justify-center gap-3">
-              <CheckCircleIcon className="w-8 h-8 text-lime-400" />
+              <span style={{ color: '#059669' }}><CheckCircleIcon className="w-7 h-7" /></span>
               <div className="text-left">
-                <p className="font-medium text-white truncate max-w-[200px]">{keystoreFile.name}</p>
-                <p className="text-sm text-zinc-400">{formatFileSize(keystoreFile.size)}</p>
+                <p className="max-w-[220px] truncate text-[14.5px] font-semibold" style={{ color: '#1a1615' }}>{keystoreFile.name}</p>
+                <p className="text-[13px]" style={{ color: '#5a6272' }}>{formatFileSize(keystoreFile.size)}</p>
               </div>
             </div>
           ) : (
             <div className="py-2">
-              <KeyIcon className="w-10 h-10 mx-auto mb-3 text-zinc-500" />
-              <p className="text-zinc-300 font-medium">Drop your keystore file here</p>
-              <p className="text-sm text-zinc-500 mt-1">.jks, .keystore, .p12, or .pfx (max {formatFileSize(MAX_KEYSTORE_SIZE)})</p>
+              <span className="mx-auto mb-3 block w-fit" style={{ color: '#94a3b8' }}>
+                <KeyIcon className="w-9 h-9" />
+              </span>
+              <p className="text-[14.5px] font-semibold" style={{ color: '#1a1615' }}>Drop your keystore file here</p>
+              <p className="mt-1 text-[13px]" style={{ color: '#94a3b8' }}>.jks, .keystore, .p12, or .pfx (max {formatFileSize(MAX_KEYSTORE_SIZE)})</p>
             </div>
           )}
         </div>
         {errors.keystore && (
-          <p className="mt-2 text-sm text-red-400 flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+          <p className="mt-2 flex items-center gap-1.5 text-[13px]" style={{ color: '#dc2626' }}>
+            <AlertIcon className="w-4 h-4 flex-shrink-0" />
             {errors.keystore}
           </p>
         )}
@@ -299,8 +305,8 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
 
       {/* Key Alias */}
       <div>
-        <label htmlFor="keyAlias" className="block text-sm font-medium text-zinc-300 mb-2">
-          Key Alias
+        <label htmlFor="keyAlias" className="mb-2 block text-[13.5px] font-semibold" style={{ color: '#1a1615' }}>
+          Key alias
         </label>
         <input
           type="text"
@@ -308,15 +314,12 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
           value={keyAlias}
           onChange={e => setKeyAlias(e.target.value)}
           disabled={disabled}
-          className={`w-full px-4 py-3 bg-zinc-800/50 border rounded-xl focus:ring-2 focus:ring-lime-500/50 focus:border-lime-500/50 outline-none transition-all ${errors.keyAlias ? 'border-red-500' : 'border-zinc-700'
-            } ${disabled ? 'opacity-50' : ''}`}
+          className={`tc-field ${errors.keyAlias ? 'tc-field-error' : ''}`}
           placeholder="e.g., my-key-alias"
         />
         {errors.keyAlias && (
-          <p className="mt-2 text-sm text-red-400 flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+          <p className="mt-2 flex items-center gap-1.5 text-[13px]" style={{ color: '#dc2626' }}>
+            <AlertIcon className="w-4 h-4 flex-shrink-0" />
             {errors.keyAlias}
           </p>
         )}
@@ -324,8 +327,8 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
 
       {/* Keystore Password */}
       <div>
-        <label htmlFor="keystorePassword" className="block text-sm font-medium text-zinc-300 mb-2">
-          Keystore Password
+        <label htmlFor="keystorePassword" className="mb-2 block text-[13.5px] font-semibold" style={{ color: '#1a1615' }}>
+          Keystore password
         </label>
         <div className="relative">
           <input
@@ -334,24 +337,23 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
             value={keystorePassword}
             onChange={e => setKeystorePassword(e.target.value)}
             disabled={disabled}
-            className={`w-full px-4 py-3 bg-zinc-800/50 border rounded-xl focus:ring-2 focus:ring-lime-500/50 focus:border-lime-500/50 outline-none transition-all ${errors.keystorePassword ? 'border-red-500' : 'border-zinc-700'
-              } ${disabled ? 'opacity-50' : ''}`}
+            className={`tc-field pr-12 ${errors.keystorePassword ? 'tc-field-error' : ''}`}
             placeholder="Enter keystore password"
           />
           <button
             type="button"
             onClick={() => setShowKeystorePassword(!showKeystorePassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer transition-colors hover:opacity-70"
+            style={{ color: '#94a3b8' }}
             tabIndex={-1}
+            aria-label="Toggle password visibility"
           >
             {showKeystorePassword ? <EyeOffIcon className="w-5 h-5" /> : <EyeIcon className="w-5 h-5" />}
           </button>
         </div>
         {errors.keystorePassword && (
-          <p className="mt-2 text-sm text-red-400 flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+          <p className="mt-2 flex items-center gap-1.5 text-[13px]" style={{ color: '#dc2626' }}>
+            <AlertIcon className="w-4 h-4 flex-shrink-0" />
             {errors.keystorePassword}
           </p>
         )}
@@ -359,8 +361,8 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
 
       {/* Key Password */}
       <div>
-        <label htmlFor="keyPassword" className="block text-sm font-medium text-zinc-300 mb-2">
-          Key Password
+        <label htmlFor="keyPassword" className="mb-2 block text-[13.5px] font-semibold" style={{ color: '#1a1615' }}>
+          Key password
         </label>
         <div className="relative">
           <input
@@ -369,24 +371,23 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
             value={keyPassword}
             onChange={e => setKeyPassword(e.target.value)}
             disabled={disabled}
-            className={`w-full px-4 py-3 bg-zinc-800/50 border rounded-xl focus:ring-2 focus:ring-lime-500/50 focus:border-lime-500/50 outline-none transition-all ${errors.keyPassword ? 'border-red-500' : 'border-zinc-700'
-              } ${disabled ? 'opacity-50' : ''}`}
+            className={`tc-field pr-12 ${errors.keyPassword ? 'tc-field-error' : ''}`}
             placeholder="Often same as keystore password"
           />
           <button
             type="button"
             onClick={() => setShowKeyPassword(!showKeyPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer transition-colors hover:opacity-70"
+            style={{ color: '#94a3b8' }}
             tabIndex={-1}
+            aria-label="Toggle password visibility"
           >
             {showKeyPassword ? <EyeOffIcon className="w-5 h-5" /> : <EyeIcon className="w-5 h-5" />}
           </button>
         </div>
         {errors.keyPassword && (
-          <p className="mt-2 text-sm text-red-400 flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+          <p className="mt-2 flex items-center gap-1.5 text-[13px]" style={{ color: '#dc2626' }}>
+            <AlertIcon className="w-4 h-4 flex-shrink-0" />
             {errors.keyPassword}
           </p>
         )}
@@ -396,10 +397,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
       <button
         type="submit"
         disabled={disabled}
-        className={`w-full py-3.5 px-6 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${disabled
-            ? 'bg-zinc-700 text-zinc-400 cursor-not-allowed'
-            : 'btn-primary text-black hover:shadow-lg hover:shadow-lime-500/25'
-          }`}
+        className="btn-primary w-full px-6 py-3.5 text-[15px]"
       >
         {disabled ? (
           <>
@@ -411,8 +409,8 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
           </>
         ) : (
           <>
-            Sign My AAB
-            <ArrowRightIcon className="w-5 h-5" />
+            Sign my AAB
+            <ArrowRightIcon className="w-[18px] h-[18px]" />
           </>
         )}
       </button>

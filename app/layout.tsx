@@ -1,16 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { StructuredData } from "@/components/structured-data";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Same pairing as testerscommunity.com: Inter for body, Plus Jakarta Sans for
+// headings. Geist Mono stays for code and file names.
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const siteConfig = {
@@ -24,8 +34,8 @@ const siteConfig = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#09090b" },
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+    { media: "(prefers-color-scheme: light)", color: "#054ada" },
+    { media: "(prefers-color-scheme: dark)", color: "#054ada" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -126,7 +136,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${jakarta.variable} ${geistMono.variable} antialiased`}
       >
         <StructuredData />
         {children}

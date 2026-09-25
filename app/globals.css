@@ -1,272 +1,298 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+ * AAB Signer - Testers Community design system
+ *
+ * Ported from the main site (testerscommunity.com) so this tool reads as part
+ * of the same product family as the guides and the landing page:
+ *   - one blue accent (#054ada), semantic green/red, and neutrals. No rainbow.
+ *   - blue hero band, light gradient body, translucent white cards.
+ *   - Plus Jakarta Sans for headings, Inter for body, mono only for code.
+ * ------------------------------------------------------------------------ */
+
 :root {
-  --background: #09090b;
-  --foreground: #fafafa;
-  --muted: #a1a1aa;
-  --card: #18181b;
-  --card-border: #27272a;
-  --accent: #84cc16;
-  --accent-muted: rgba(132, 204, 22, 0.1);
+  /* Ink */
+  --ink: #1a1615;          /* headings */
+  --ink-soft: #453f3d;     /* lead paragraphs */
+  --body: #5a6272;         /* body copy */
+  --muted: #94a3b8;        /* meta, captions */
+
+  /* Accent - the single brand colour, same blue as /guides */
+  --accent: #054ada;
+  --accent-ink: #043aad;
+  --accent-wash: rgba(5, 74, 218, 0.07);
+  --accent-line: rgba(5, 74, 218, 0.15);
+
+  /* Surfaces */
+  --page: #ffffff;
+  --card: rgba(255, 255, 255, 0.88);
+  --line: rgba(26, 22, 21, 0.08);
+  --line-strong: rgba(26, 22, 21, 0.14);
+  --sunken: #f8fafc;
+
+  /* Semantic - used only for state, never for decoration */
+  --ok: #059669;
+  --ok-wash: rgba(5, 150, 105, 0.08);
+  --err: #dc2626;
+  --err-wash: rgba(220, 38, 38, 0.06);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--page);
+  --color-foreground: var(--ink);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-heading: var(--font-jakarta), var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 * {
   box-sizing: border-box;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
+@layer base {
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color-scheme: light;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-jakarta), var(--font-inter), system-ui, sans-serif;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+}
+
+/* Scrollbar - thin, no rail, matching the main site */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(26, 22, 21, 0.3) transparent;
+}
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-track {
-  background: #18181b;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3f3f46;
-  border-radius: 4px;
+  background: rgba(26, 22, 21, 0.28);
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #52525b;
+  background: rgba(26, 22, 21, 0.45);
+  background-clip: padding-box;
 }
 
-/* Glassmorphism card */
-.glass-card {
-  background: rgba(24, 24, 27, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(39, 39, 42, 0.8);
+::selection {
+  background: rgba(5, 74, 218, 0.16);
+  color: var(--ink);
 }
 
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, #84cc16 0%, #a3e635 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* ---------------------------------------------------------------- Surfaces */
+
+/* The card treatment used across /guides: translucent white over the tinted
+   page gradient, hairline border, soft lift. */
+.tc-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
-/* Subtle glow effect */
-.glow {
-  box-shadow: 0 0 60px rgba(132, 204, 22, 0.15);
+.tc-card-hover {
+  transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
 }
 
-/* Animated gradient border */
-.gradient-border {
-  position: relative;
-  background: #18181b;
-  border-radius: 16px;
+.tc-card-hover:hover {
+  border-color: var(--line-strong);
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.07);
+  transform: translateY(-2px);
 }
 
-.gradient-border::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: 17px;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(132, 204, 22, 0.3), rgba(132, 204, 22, 0.1), rgba(39, 39, 42, 0.5));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+/* Page body behind the blue hero: white to a faint blue, as on /guides. */
+.tc-canvas {
+  background: linear-gradient(180deg, #ffffff 0%, #f0f4ff 40%, #f8fafc 100%);
 }
 
-/* Pulse animation for badges */
-@keyframes pulse-subtle {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.8;
-  }
+/* The dotted field the guides index lays over its canvas. */
+.tc-dots {
+  background-image: radial-gradient(circle, rgba(5, 74, 218, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
 
-.animate-pulse-subtle {
-  animation: pulse-subtle 2s ease-in-out infinite;
-}
+/* ----------------------------------------------------------------- Buttons */
 
-/* Fade in animation */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.5s ease-out forwards;
-}
-
-/* Staggered fade in for children */
-.stagger-children > * {
-  opacity: 0;
-  animation: fade-in 0.5s ease-out forwards;
-}
-
-.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
-.stagger-children > *:nth-child(2) { animation-delay: 100ms; }
-.stagger-children > *:nth-child(3) { animation-delay: 200ms; }
-.stagger-children > *:nth-child(4) { animation-delay: 300ms; }
-.stagger-children > *:nth-child(5) { animation-delay: 400ms; }
-
-/* Shimmer effect for loading states */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-.shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
-
-/* File drop zone active state */
-.drop-zone-active {
-  border-color: #84cc16 !important;
-  background: rgba(132, 204, 22, 0.1) !important;
-}
-
-/* Focus ring */
-.focus-ring:focus {
-  outline: none;
-  ring: 2px;
-  ring-color: rgba(132, 204, 22, 0.5);
-  ring-offset: 2px;
-  ring-offset-color: #09090b;
-}
-
-/* Button hover effect */
 .btn-primary {
-  background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
-  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-ink);
+  box-shadow: 0 6px 20px rgba(5, 74, 218, 0.22);
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(132, 204, 22, 0.3);
 }
 
-.btn-primary:active {
+.btn-primary:active:not(:disabled) {
   transform: translateY(0);
 }
 
-/* Grid pattern background */
-.grid-pattern {
-  background-image:
-    linear-gradient(rgba(39, 39, 42, 0.3) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(39, 39, 42, 0.3) 1px, transparent 1px);
-  background-size: 64px 64px;
+.btn-primary:disabled {
+  background: #e2e8f0;
+  color: #94a3b8;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
-/* Radial gradient overlay */
-.radial-gradient {
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(132, 204, 22, 0.1), transparent);
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #ffffff;
+  color: var(--ink);
+  font-weight: 600;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-/* Selection color */
-::selection {
-  background: rgba(132, 204, 22, 0.3);
-  color: #fff;
+.btn-secondary:hover {
+  background: var(--sunken);
+  border-color: rgba(26, 22, 21, 0.22);
 }
 
-/* Tooltip styles */
-.tooltip {
-  position: relative;
+/* ------------------------------------------------------------------ Fields */
+
+.tc-field {
+  width: 100%;
+  padding: 12px 16px;
+  background: #ffffff;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  color: var(--ink);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.tooltip::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 6px 12px;
-  background: #27272a;
-  color: #fafafa;
-  font-size: 12px;
+.tc-field::placeholder {
+  color: var(--muted);
+}
+
+.tc-field:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(5, 74, 218, 0.12);
+}
+
+.tc-field:disabled {
+  background: var(--sunken);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.tc-field-error {
+  border-color: var(--err);
+}
+
+.tc-field-error:focus {
+  border-color: var(--err);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+/* Text fields carry their own border, so the global focus ring would read as a
+   second one. Everything else keeps the accessible outline. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
   border-radius: 6px;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.2s ease;
-  margin-bottom: 8px;
 }
 
-.tooltip:hover::after {
-  opacity: 1;
-  visibility: visible;
+.tc-field:focus-visible {
+  outline: none;
 }
 
-/* FAQ accordion */
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
+/* -------------------------------------------------------------- Drop zones */
+
+.tc-drop {
+  border: 1.5px dashed var(--line-strong);
+  border-radius: 16px;
+  background: #ffffff;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 
-.faq-answer.open {
-  max-height: 500px;
+.tc-drop:hover {
+  border-color: var(--accent-line);
+  background: var(--accent-wash);
 }
 
-/* Confetti animation keyframes */
-@keyframes confetti-fall {
-  0% {
-    transform: translateY(-100%) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100vh) rotate(720deg);
-    opacity: 0;
-  }
+.tc-drop-active {
+  border-color: var(--accent);
+  background: var(--accent-wash);
 }
 
-/* Progress bar animation */
-@keyframes progress-indeterminate {
-  0% {
-    left: -50%;
-    width: 50%;
-  }
-  100% {
-    left: 100%;
-    width: 50%;
-  }
+.tc-drop-filled {
+  border-style: solid;
+  border-color: rgba(5, 150, 105, 0.35);
+  background: var(--ok-wash);
+}
+
+/* -------------------------------------------------------------------- Code */
+
+/* Dark ink block on a light page - the same treatment the guides give <pre>. */
+.tc-code {
+  background: #1a1615;
+  color: #f5f5f4;
+  border-radius: 14px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 13.5px;
+  line-height: 1.65;
+  overflow-x: auto;
+}
+
+/* ------------------------------------------------------------- Animations */
+
+@keyframes tc-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: tc-fade-in 0.4s ease-out forwards;
+}
+
+@keyframes tc-sweep {
+  0%   { left: -40%; }
+  100% { left: 100%; }
 }
 
 .progress-indeterminate {
@@ -278,9 +304,15 @@ html {
   content: '';
   position: absolute;
   top: 0;
-  left: -50%;
-  width: 50%;
+  left: -40%;
+  width: 40%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(132, 204, 22, 0.5), transparent);
-  animation: progress-indeterminate 1.5s ease-in-out infinite;
+  background: linear-gradient(90deg, transparent, rgba(5, 74, 218, 0.45), transparent);
+  animation: tc-sweep 1.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .animate-fade-in { animation: none; opacity: 1; transform: none; }
+  .progress-indeterminate::after { animation: none; }
 }
