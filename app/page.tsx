@@ -113,7 +113,7 @@ const faqData = [
   },
   {
     question: "Can I use this for production apps?",
-    answer: "Absolutely! This tool produces production-ready signed bundles suitable for Google Play release. Thousands of developers use this tool for their production apps."
+    answer: "Absolutely. This tool produces production-ready signed bundles suitable for Google Play release, signed with jarsigner exactly as Google recommends."
   },
   {
     question: "Where can I get a keystore?",
@@ -614,7 +614,7 @@ export default function Home() {
                 {
                   icon: <UsersIcon className="w-5 h-5" />,
                   title: "Community built",
-                  description: "Part of the Testers Community toolkit, alongside the closed testing service that has helped publish 10,000+ apps."
+                  description: "Part of the Testers Community toolkit, alongside the closed testing service behind 10,000+ apps published."
                 }
               ].map((card, index) => (
                 <div key={index} className="tc-card tc-card-hover p-6 flex flex-col">

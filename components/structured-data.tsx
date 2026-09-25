@@ -97,7 +97,7 @@ export function StructuredData() {
         name: "Can I use this for production apps?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Absolutely! This tool produces production-ready signed bundles suitable for Google Play release. Thousands of developers use this tool for their production apps.",
+          text: "Absolutely. This tool produces production-ready signed bundles suitable for Google Play release, signed with jarsigner exactly as Google recommends.",
         },
       },
       {
