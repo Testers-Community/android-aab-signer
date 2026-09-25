@@ -188,7 +188,11 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* The two files sit side by side, then the three credentials that
+          unlock them, so the whole job is visible in one glance rather
+          than as a six-step column. */}
+      <div className="grid gap-5 sm:grid-cols-2">
       {/* AAB File Upload */}
       <div>
         <label className="field-label">
@@ -297,6 +301,9 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
         )}
       </div>
 
+      </div>
+
+      <div className="grid gap-x-8 gap-y-5 sm:grid-cols-3">
       {/* Key Alias */}
       <div>
         <label htmlFor="keyAlias" className="field-label">
@@ -387,11 +394,14 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
         )}
       </div>
 
+      </div>
+
       {/* Submit Button */}
       <button
         type="submit"
         disabled={disabled}
-        className="btn w-full"
+        className="btn"
+        style={{ minWidth: 220 }}
       >
         {disabled ? (
           <>
