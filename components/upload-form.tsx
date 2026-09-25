@@ -227,11 +227,11 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
             </div>
           ) : (
             <div className="py-2">
-              <span className="mx-auto mb-3 block w-fit" style={{ color: 'var(--faint)' }}>
+              <span className="mx-auto mb-3 block w-fit" style={{ color: 'var(--muted)' }}>
                 <PackageIcon className="w-9 h-9" />
               </span>
               <p className="text-[14.5px] font-semibold" style={{ color: 'var(--ink)' }}>Drop your .aab file here</p>
-              <p className="mt-1 text-[13px]" style={{ color: 'var(--faint)' }}>or click to browse (max {formatFileSize(MAX_AAB_SIZE)})</p>
+              <p className="mt-1 text-[13px]" style={{ color: 'var(--muted)' }}>or click to browse (max {formatFileSize(MAX_AAB_SIZE)})</p>
             </div>
           )}
         </div>
@@ -281,11 +281,11 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
             </div>
           ) : (
             <div className="py-2">
-              <span className="mx-auto mb-3 block w-fit" style={{ color: 'var(--faint)' }}>
+              <span className="mx-auto mb-3 block w-fit" style={{ color: 'var(--muted)' }}>
                 <KeyIcon className="w-9 h-9" />
               </span>
               <p className="text-[14.5px] font-semibold" style={{ color: 'var(--ink)' }}>Drop your keystore file here</p>
-              <p className="mt-1 text-[13px]" style={{ color: 'var(--faint)' }}>.jks, .keystore, .p12, or .pfx (max {formatFileSize(MAX_KEYSTORE_SIZE)})</p>
+              <p className="mt-1 text-[13px]" style={{ color: 'var(--muted)' }}>.jks, .keystore, .p12, or .pfx (max {formatFileSize(MAX_KEYSTORE_SIZE)})</p>
             </div>
           )}
         </div>
@@ -338,7 +338,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
             type="button"
             onClick={() => setShowKeystorePassword(!showKeystorePassword)}
             className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer transition-colors hover:opacity-70"
-            style={{ color: 'var(--faint)' }}
+            style={{ color: 'var(--muted)' }}
             tabIndex={-1}
             aria-label="Toggle password visibility"
           >
@@ -372,7 +372,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
             type="button"
             onClick={() => setShowKeyPassword(!showKeyPassword)}
             className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer transition-colors hover:opacity-70"
-            style={{ color: 'var(--faint)' }}
+            style={{ color: 'var(--muted)' }}
             tabIndex={-1}
             aria-label="Toggle password visibility"
           >
@@ -391,7 +391,7 @@ export function UploadForm({ onSubmit, disabled = false }: UploadFormProps) {
       <button
         type="submit"
         disabled={disabled}
-        className="btn btn-primary w-full"
+        className="btn w-full"
       >
         {disabled ? (
           <>
